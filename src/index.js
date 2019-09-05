@@ -14,9 +14,9 @@ const imgPropTypes = {
   loader: node,
   unloader: node,
   decode: bool,
-  crossOrigin: string,
   crossorigin: string,
   src: oneOfType([string, array]),
+  imageRef: func,
   container: func,
   loaderContainer: func,
   unloaderContainer: func
@@ -133,9 +133,8 @@ class Img extends Component {
     }
     this.i.src = this.sourceList[this.state.currentIndex]
 
-    if (this.props.crossOrigin || this.props.crossorigin) {
-      this.i.crossOrigin = this.props.crossOrigin || this.props.crossorigin
-      this.i.crossorigin = this.props.crossOrigin || this.props.crossorigin
+    if (this.props.crossorigin) {
+      this.i.crossOrigin = this.props.crossorigin
     }
 
     if (this.props.decode && this.i.decode) {
@@ -178,7 +177,7 @@ class Img extends Component {
     if (this.i) this.unloadImg()
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     this.loaderContainer = nextProps.loaderContainer || nextProps.container
     this.unloaderContainer = nextProps.unloaderContainer || nextProps.container
 
@@ -209,8 +208,7 @@ class Img extends Component {
 
       // props to exclude from the rest property
       src,
-      crossOrigin,
-      crossorigin,
+      imageRef,
       decode,
       loaderContainer,
       unloaderContainer,
@@ -222,8 +220,9 @@ class Img extends Component {
     // if we have loaded, show img
     if (this.state.isLoaded) {
       const imgProps = {
+        ...rest,
         ...{src: this.sourceList[this.state.currentIndex]},
-        ...rest
+        ...(imageRef ? { ref: imageRef } : {})
       }
 
       return container(<img {...imgProps} />)
