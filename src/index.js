@@ -131,11 +131,12 @@ class Img extends Component {
     } else {
       this.i = new Image()
     }
-    this.i.src = this.sourceList[this.state.currentIndex]
 
     if (this.props.crossorigin) {
       this.i.crossOrigin = this.props.crossorigin
     }
+
+    this.i.src = this.sourceList[this.state.currentIndex]
 
     if (this.props.decode && this.i.decode) {
       this.i
@@ -222,9 +223,9 @@ class Img extends Component {
     if (this.state.isLoaded) {
       const imgProps = {
         ...rest,
+        ...(crossorigin ? { crossOrigin: crossorigin } : {}),
         ...{src: this.sourceList[this.state.currentIndex]},
-        ...(imageRef ? { ref: imageRef } : {}),
-        ...(crossorigin ? { crossOrigin: crossorigin } : {})
+        ...(imageRef ? { ref: imageRef } : {})
       }
 
       return container(<img {...imgProps} />)
