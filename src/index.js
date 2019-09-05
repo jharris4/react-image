@@ -208,6 +208,7 @@ class Img extends Component {
 
       // props to exclude from the rest property
       src,
+      crossorigin,
       imageRef,
       decode,
       loaderContainer,
@@ -222,7 +223,8 @@ class Img extends Component {
       const imgProps = {
         ...rest,
         ...{src: this.sourceList[this.state.currentIndex]},
-        ...(imageRef ? { ref: imageRef } : {})
+        ...(imageRef ? { ref: imageRef } : {}),
+        ...(crossorigin ? { crossOrigin: crossorigin } : {})
       }
 
       return container(<img {...imgProps} />)
